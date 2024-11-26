@@ -11,7 +11,8 @@ public class Sling : MonoBehaviour
     public Transform projectile; // The projectile to launch
     public Rigidbody projectileRb; // Rigidbody for the projectile 
     
-    public float launchForceMultiplier = 10f; // Multiplier for the launch force
+    
+    public float launchForceMultiplier = 15f; // Multiplier for the launch force
     private Vector3 dragStartPoint; // The starting point of the drag
     private bool isDragging = false; // Whether the player is dragging the projectile
 
@@ -27,14 +28,37 @@ public class Sling : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-    if (lineRenderer.enabled) // Updating the slingshot bands when the linerenderer is active 
-    {
+        if (lineRenderer.enabled) // Updating the slingshot bands when the linerenderer is active 
+        {
 
-        lineRenderer.SetPosition(0, leftPoint.position); // Left point
-        lineRenderer.SetPosition(1, projectile.position); // Middle point
-        lineRenderer.SetPosition(2, rightPoint.position); // Right point 
+            lineRenderer.SetPosition(0, leftPoint.position); // Left point
+            lineRenderer.SetPosition(1, projectile.position); // Middle point
+            lineRenderer.SetPosition(2, rightPoint.position); // Right point 
+
+            if (projectile.position.x < 0.8874f)
+            {
+                transform.position = new Vector3(0.8874f, 0.80f , transform.position.z);
+            }
+            //if (projectile.position.y < 0.80f || projectile.position.y > 0.6902f)
+           // {
+                
+           // }
+
+
+
+
+
+        }
     }
-    }
+    void OnCollisionEnter(Collision collision)
+            {
+        if (collision.gameObject.name == ("Wall"))
+        {
+            ContactPoint contact = collision.contacts[0];
+        }
+        
+            
+            }
     
     void OnMouseDown()
     {
@@ -97,4 +121,5 @@ public class Sling : MonoBehaviour
         // If no collider is hit, return a default position
         return projectile.position;
     }
+
 }
