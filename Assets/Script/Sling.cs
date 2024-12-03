@@ -20,6 +20,7 @@ public class Sling : MonoBehaviour
     private Vector3 initialPosition; // The initial position of the projectile
 
     public TextMeshProUGUI livesText; // TextMeshPro text to display lives
+    public TextMeshProUGUI gameOverText; // TextMeshPro text for the Game Over popup
 
     private bool slingshotEnabled = false; // Track whether the slingshot is enabled
 
@@ -31,6 +32,12 @@ public class Sling : MonoBehaviour
 
         // Store the initial position of the projectile
         initialPosition = projectile.position;
+
+        // Hide the Game Over text at the start
+        if (gameOverText != null)
+        {
+            gameOverText.gameObject.SetActive(false);
+        }
 
         UpdateProjectileState();
         UpdateLivesText(); // Update the lives display when the game starts
@@ -124,6 +131,7 @@ public class Sling : MonoBehaviour
         {
             isDepleted = true;
             UpdateProjectileState(); // Update the state of the projectile when lives reach zero
+            ShowGameOver(); // Show the Game Over popup
         }
     }
 
@@ -158,18 +166,17 @@ public class Sling : MonoBehaviour
         }
     }
 
-    // enable/disable slingshot
-    public void SetSlingshotEnabled(bool enabled)
+    private void ShowGameOver()
     {
-        slingshotEnabled = enabled;
+        if (gameOverText != null)
+        {
+            gameOverText.gameObject.SetActive(true); // Enable the Game Over text
+            gameOverText.text = "Game Over!"; // Display the message
+        }
     }
 
-    private IEnumerator ResetAfterDelay(float delay)
+    public void SetSlingshotEnabled(bool enabled)
     {
-        yield return new WaitForSeconds(delay); // Wait for the specified delay
-        if (!isDragging && lives > 0) // Ensure the projectile can reset
-        {
-            ResetProjectilePosition();
-        }
+        slingshotEnabled = enabled; //This function is active 
     }
 }
