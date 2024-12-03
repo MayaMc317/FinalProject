@@ -63,13 +63,13 @@ public class GameManager : MonoBehaviour
             // Hide the Easy Button
             if (easyButton != null)
             {
-                easyButton.SetActive(false);
+                //easyButton.SetActive(false);
             }
 
             // Hide the Medium Button
             if (mediumButton != null)
             {
-                mediumButton.SetActive(false);
+                //mediumButton.SetActive(false);
             }
 
             // Show the main game UI or start the game logic
@@ -87,12 +87,15 @@ public class GameManager : MonoBehaviour
     {
         // Trigger StartGame when the Easy Button is clicked
         StartGame();
+        SceneManager.LoadScene("Pingpong");
     }
 
     // Method to handle Medium Button click and change the scene
     public void OnMediumButtonClicked()
     {
+        StartGame();
         //Load a scene Medium when the Medium Button is clicked
         SceneManager.LoadScene("Medium"); 
     }
+    
 }

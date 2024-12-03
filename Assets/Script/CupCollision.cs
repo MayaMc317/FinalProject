@@ -31,9 +31,12 @@ public class CupCollision : MonoBehaviour
         if (gameObject.CompareTag("Ball")) // Check if the object collides with a ball
         {
             Destroy(gameObject);
-           
-
             
+        }
+        void OnCollisionEnter(Collision collision)
+        {
+            if(collision.gameObject.name == "Wall");
+            if(collision.gameObject.name == "Wall(1)");
         }
 
         /*if(!gameObject.CompareTag("Cup"))

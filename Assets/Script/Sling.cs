@@ -48,9 +48,11 @@ public class Sling : MonoBehaviour
     {
         if (lineRenderer.enabled) // Updating the slingshot bands when the linerenderer is active 
         {
+            MouseDrag();
             lineRenderer.SetPosition(0, leftPoint.position); // Left point
             lineRenderer.SetPosition(1, projectile.position); // Middle point
             lineRenderer.SetPosition(2, rightPoint.position); // Right point 
+
         }
     }
 
@@ -63,13 +65,13 @@ public class Sling : MonoBehaviour
         }
     }
 
-    void OnMouseDrag()
+    void MouseDrag()
     {
         if (isDragging)
         {
             Vector3 currentMousePosition = GetMouseWorldPosition();
             Vector3 offset = currentMousePosition - leftPoint.position;
-            float maxDistance = 3f; // Maximum stretch distance
+            float maxDistance = 2f; // Maximum stretch distance
             if (offset.magnitude > maxDistance)
             {
                 offset = offset.normalized * maxDistance;
@@ -105,8 +107,11 @@ public class Sling : MonoBehaviour
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         if (Physics.Raycast(ray, out RaycastHit hit))
         {
+            Debug.Log(hit.point);
             return hit.point; // Return the hit point where the mouse ray intersects
+            
         }
+        
         return projectile.position;
     }
 
@@ -115,7 +120,7 @@ public class Sling : MonoBehaviour
         DecreaseLife(); // Decrease the projectile's life when launched
 
         // Wait for 5 seconds before resetting
-        yield return new WaitForSeconds(5f);
+        yield return new WaitForSeconds(3f);
 
         if (lives > 0 && !isDragging) // Only reset if there are lives left and the projectile is not being dragged
         {
@@ -179,4 +184,6 @@ public class Sling : MonoBehaviour
     {
         slingshotEnabled = enabled; //This function is active 
     }
+
+    
 }
