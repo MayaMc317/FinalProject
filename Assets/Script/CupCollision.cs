@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class CupCollision : MonoBehaviour
 {
+    private GameManager gameManager;
     // Start is called before the first frame update
     void Start()
     {
@@ -18,11 +19,35 @@ public class CupCollision : MonoBehaviour
 
      void OnTriggerEnter(Collider other)
     {
+        
         if(other.CompareTag("Cup")) //Checks if the object collides with the cup
         {
             Destroy(other.gameObject); // Destroys the cup
-
             Destroy(gameObject); // Destroys the ball
+            return; 
+            Debug.Log("Collision detected with: " + other.tag);
         }
+
+        if (gameObject.CompareTag("Ball")) // Check if the object collides with a ball
+        {
+            Destroy(gameObject);
+           
+
+            
+        }
+
+        /*if(!gameObject.CompareTag("Cup"))
+        {
+            gameManager.GameOver();
+        }
+
+        if(!gameObject.CompareTag("Ball"))
+        {
+            Destroy(gameObject);
+            gameManager.GameOver();
+            
+        }*/
+
     }
+   
 }
