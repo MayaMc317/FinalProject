@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
-
+using UnityEngine.UI;
 
 public class Sling : MonoBehaviour
 {
@@ -20,39 +20,42 @@ public class Sling : MonoBehaviour
     private Vector3 initialPosition; // The initial position of the projectile
 
     public TextMeshProUGUI livesText; // TextMeshPro text to display lives
-    public TextMeshProUGUI gameOverText; // TextMeshPro text for the Game Over popup
+    public TextMeshProUGUI gameOverText; // TextMeshPro text to display game over
+
+    public Button restartButton; // Restart button
 
     private bool slingshotEnabled = false; // Track whether the slingshot is enabled
 
-    // Start is called before the first frame update
     void Start()
     {
         lineRenderer.enabled = true; // To make sure the line renderer is initialized 
         lineRenderer.positionCount = 3;
 
-        // Store the initial position of the projectile
         initialPosition = projectile.position;
 
-        // Hide the Game Over text at the start
+        UpdateProjectileState();
+        UpdateLivesText();
+
         if (gameOverText != null)
         {
-            gameOverText.gameObject.SetActive(false);
+            gameOverText.gameObject.SetActive(false); // Hide the game text at the start
+            
         }
 
-        UpdateProjectileState();
-        UpdateLivesText(); // Update the lives display when the game starts
+        if (restartButton != null)
+        {
+            restartButton.gameObject.SetActive(false); // Hide the restart button initially
+            restartButton.onClick.AddListener(Restart); // Attach the restart function to the button
+        }
     }
 
-    // Update is called once per frame
     void Update()
     {
-        if (lineRenderer.enabled) // Updating the slingshot bands when the linerenderer is active 
+        if (lineRenderer.enabled)
         {
-            MouseDrag();
             lineRenderer.SetPosition(0, leftPoint.position); // Left point
             lineRenderer.SetPosition(1, projectile.position); // Middle point
-            lineRenderer.SetPosition(2, rightPoint.position); // Right point 
-
+            lineRenderer.SetPosition(2, rightPoint.position); // Right point
         }
     }
 
@@ -65,7 +68,7 @@ public class Sling : MonoBehaviour
         }
     }
 
-    void MouseDrag()
+    void OnMouseDrag()
     {
         if (isDragging)
         {
@@ -97,7 +100,6 @@ public class Sling : MonoBehaviour
                 projectileRb.velocity = launchDirection * launchForceMultiplier * stretchDistance;
             }
 
-            // Start the process of decreasing life and resetting the projectile
             StartCoroutine(HandleProjectileLife());
         }
     }
@@ -107,22 +109,19 @@ public class Sling : MonoBehaviour
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         if (Physics.Raycast(ray, out RaycastHit hit))
         {
-            Debug.Log(hit.point);
-            return hit.point; // Return the hit point where the mouse ray intersects
-            
+            return hit.point;
         }
-        
         return projectile.position;
     }
 
     private IEnumerator HandleProjectileLife()
     {
-        DecreaseLife(); // Decrease the projectile's life when launched
+        DecreaseLife();
 
-        // Wait for 5 seconds before resetting
+        // Wait for 3 seconds before resetting
         yield return new WaitForSeconds(3f);
 
-        if (lives > 0 && !isDragging) // Only reset if there are lives left and the projectile is not being dragged
+        if (lives > 0 && !isDragging)
         {
             ResetProjectilePosition();
         }
@@ -131,12 +130,13 @@ public class Sling : MonoBehaviour
     private void DecreaseLife()
     {
         lives--;
-        UpdateLivesText(); // Update the lives display
+        UpdateLivesText();
+
         if (lives <= 0)
         {
             isDepleted = true;
-            UpdateProjectileState(); // Update the state of the projectile when lives reach zero
-            ShowGameOver(); // Show the Game Over popup
+            UpdateProjectileState();
+            ShowGameOver(); // Show the game over screen when lives reach zero
         }
     }
 
@@ -146,7 +146,7 @@ public class Sling : MonoBehaviour
         projectile.position = initialPosition; // Reset the position
         projectileRb.velocity = Vector3.zero; // Stop any motion
         projectileRb.angularVelocity = Vector3.zero; // Stop any rotation
-        UpdateProjectileState(); // Ensure visibility and correct state
+        UpdateProjectileState();
     }
 
     private void UpdateProjectileState()
@@ -167,22 +167,47 @@ public class Sling : MonoBehaviour
     {
         if (livesText != null)
         {
-            livesText.text = "Lives: " + lives; // Update the text with the current lives
+            livesText.text = "Lives: " + lives;
         }
     }
 
-    private void ShowGameOver()
+     private void ShowGameOver()
     {
         if (gameOverText != null)
         {
-            gameOverText.gameObject.SetActive(true); // Enable the Game Over text
-            gameOverText.text = "Game Over!"; // Display the message
+            gameOverText.gameObject.SetActive(true); // Display the Game Over text
+            gameOverText.text = "Game Over!"; // Customize the message
+        }
+
+        if (restartButton != null)
+        {
+            restartButton.gameObject.SetActive(true); // Show the restart button
+        }
+    }
+
+    public void Restart()
+    {
+        // Reset game state
+        lives = 3;
+        isDepleted = false;
+
+        UpdateLivesText();
+        ResetProjectilePosition();
+
+        if (gameOverText != null)
+        {
+            gameOverText.gameObject.SetActive(false); // Hide Game Over text
+        }
+
+        if (restartButton != null)
+        {
+            restartButton.gameObject.SetActive(false); // Hide the restart button
         }
     }
 
     public void SetSlingshotEnabled(bool enabled)
     {
-        slingshotEnabled = enabled; //This function is active 
+        slingshotEnabled = enabled;
     }
 
     

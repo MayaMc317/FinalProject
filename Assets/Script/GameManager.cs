@@ -11,6 +11,7 @@ public class GameManager : MonoBehaviour
     public GameObject titleScreen; // Reference to the Title Screen UI
     public GameObject easyButton; // Reference to the Easy Button
     public GameObject mediumButton; // Reference to the Medium Button
+    public GameObject hardButton; // Reference to the Hard Button
     public GameObject gameUI; // Reference to the main game UI or objects to enable when the game starts
 
     private bool gameStarted = false; // Tracks whether the game has started
@@ -31,6 +32,11 @@ public class GameManager : MonoBehaviour
         if (mediumButton != null)
         {
             mediumButton.SetActive(true); // Show the Medium Button
+        }
+
+        if (hardButton != null)
+        {
+            hardButton.SetActive(true); // Show the Hard Button
         }
 
         if (gameUI != null)
@@ -72,6 +78,11 @@ public class GameManager : MonoBehaviour
                 //mediumButton.SetActive(false);
             }
 
+            if (hardButton != null)
+            {
+                
+            }
+
             // Show the main game UI or start the game logic
             if (gameUI != null)
             {
@@ -97,5 +108,12 @@ public class GameManager : MonoBehaviour
         //Load a scene Medium when the Medium Button is clicked
         SceneManager.LoadScene("Medium"); 
     }
-    
+
+    // Method to handle hard Button click
+    public void OnHardButtonClicked()
+    {
+        // Trigger StartGame when the hard Button is clicked
+        StartGame();
+        SceneManager.LoadScene("Hard");
+    }
 }
