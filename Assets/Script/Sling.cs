@@ -55,7 +55,10 @@ public class Sling : MonoBehaviour
             mainMenuButton.gameObject.SetActive(false); // Hide the main menu button initially
             mainMenuButton.onClick.AddListener(Main); // Attach the main menu function to the button
         }
+        projectile.position = initialPosition;
+
     }
+
 
     void Update()
     {
@@ -76,7 +79,7 @@ public class Sling : MonoBehaviour
         }
     }
 
-    void OnMouseDrag()
+    /*void OnMouseDrag()
     {
         if (isDragging)
         {
@@ -89,6 +92,31 @@ public class Sling : MonoBehaviour
             }
 
             projectile.position = leftPoint.position + offset;
+        }
+    }*/
+
+    void OnMouseDrag()
+    {
+        if (isDragging)
+        {
+        // Get the current mouse position in world space
+        Vector3 currentMousePosition = GetMouseWorldPosition();
+
+        // Calculate the direction and distance from the leftPoint to the mouse position
+        Vector3 direction = currentMousePosition - leftPoint.position;
+        float maxDistance = 2f; // Maximum stretch distance
+
+        // Clamp the distance to ensure the projectile stays within range
+        if (direction.magnitude > maxDistance)
+        {
+            direction = direction.normalized * maxDistance;
+        }
+
+        // Update the projectile's position relative to the leftPoint
+        projectile.position = leftPoint.position + direction;
+
+        // Update the line renderer to show the slingshot tension
+        lineRenderer.SetPosition(1, projectile.position);
         }
     }
 
@@ -112,7 +140,7 @@ public class Sling : MonoBehaviour
         }
     }
 
-    private Vector3 GetMouseWorldPosition()
+    /*private Vector3 GetMouseWorldPosition()
     {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         if (Physics.Raycast(ray, out RaycastHit hit))
@@ -120,7 +148,19 @@ public class Sling : MonoBehaviour
             return hit.point;
         }
         return projectile.position;
+    }*/ 
+
+    private Vector3 GetMouseWorldPosition()
+    {
+    Plane plane = new Plane(Vector3.forward, leftPoint.position); // Define a plane at the slingshot level
+    Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+
+    if (plane.Raycast(ray, out float distance))
+    {
+        return ray.GetPoint(distance); // Get the point where the ray intersects the plane
     }
+        return leftPoint.position;
+}
 
     private IEnumerator HandleProjectileLife()
     {
