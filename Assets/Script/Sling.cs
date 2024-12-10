@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class Sling : MonoBehaviour
 {
@@ -23,6 +24,7 @@ public class Sling : MonoBehaviour
     public TextMeshProUGUI gameOverText; // TextMeshPro text to display game over
 
     public Button restartButton; // Restart button
+    public Button mainMenuButton; // Main Menu button
 
     private bool slingshotEnabled = false; // Track whether the slingshot is enabled
 
@@ -46,6 +48,12 @@ public class Sling : MonoBehaviour
         {
             restartButton.gameObject.SetActive(false); // Hide the restart button initially
             restartButton.onClick.AddListener(Restart); // Attach the restart function to the button
+        }
+        
+        if (mainMenuButton != null)
+        {
+            mainMenuButton.gameObject.SetActive(false); // Hide the main menu button initially
+            mainMenuButton.onClick.AddListener(Main); // Attach the main menu function to the button
         }
     }
 
@@ -183,6 +191,11 @@ public class Sling : MonoBehaviour
         {
             restartButton.gameObject.SetActive(true); // Show the restart button
         }
+
+        if (mainMenuButton != null)
+        {
+            mainMenuButton.gameObject.SetActive(true); // Show the Main Menu button
+        }
     }
 
     public void Restart()
@@ -203,6 +216,11 @@ public class Sling : MonoBehaviour
         {
             restartButton.gameObject.SetActive(false); // Hide the restart button
         }
+    }
+
+    private void Main()
+    {
+        SceneManager.LoadScene("MainMenu"); // 
     }
 
     public void SetSlingshotEnabled(bool enabled)

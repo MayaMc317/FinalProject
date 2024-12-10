@@ -12,6 +12,7 @@ public class GameManager : MonoBehaviour
     public GameObject easyButton; // Reference to the Easy Button
     public GameObject mediumButton; // Reference to the Medium Button
     public GameObject hardButton; // Reference to the Hard Button
+    public GameObject extremeButton; // Reference to the Hard Button
     public GameObject gameUI; // Reference to the main game UI or objects to enable when the game starts
 
     private bool gameStarted = false; // Tracks whether the game has started
@@ -37,6 +38,11 @@ public class GameManager : MonoBehaviour
         if (hardButton != null)
         {
             hardButton.SetActive(true); // Show the Hard Button
+        }
+
+        if (extremeButton != null)
+        {
+            extremeButton.SetActive(true); // Show the Extreme Button
         }
 
         if (gameUI != null)
@@ -83,6 +89,11 @@ public class GameManager : MonoBehaviour
                 
             }
 
+            if (extremeButton != null)
+            {
+                
+            }
+
             // Show the main game UI or start the game logic
             if (gameUI != null)
             {
@@ -115,5 +126,13 @@ public class GameManager : MonoBehaviour
         // Trigger StartGame when the hard Button is clicked
         StartGame();
         SceneManager.LoadScene("Hard");
+    }
+
+    // Method to handle hard Button click
+    public void OnExtremeButtonClicked()
+    {
+        // Trigger StartGame when the extreme Button is clicked
+        StartGame();
+        SceneManager.LoadScene("Extreme");
     }
 }

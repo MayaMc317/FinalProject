@@ -6,6 +6,9 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/Scenes/MainMenu.unity
+    guid: 4785c21681446f84ba29596efb0a3f5d
+  - enabled: 1
     path: Assets/Scenes/Pingpong.unity
     guid: 87f5e197bf132d94eb047053697b80c3
   - enabled: 1
@@ -14,4 +17,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Hard.unity
     guid: 957c25332f1e98848a1f7a3aeb1515e6
+  - enabled: 1
+    path: Assets/Scenes/Extreme.unity
+    guid: a675d7d1cb458e64db6241c64f02ad8d
   m_configObjects: {}
