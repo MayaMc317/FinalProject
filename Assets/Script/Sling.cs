@@ -12,7 +12,7 @@ public class Sling : MonoBehaviour
     public Transform projectile; // The projectile to launch
     public Rigidbody projectileRb; // Rigidbody for the projectile 
 
-    public float launchForceMultiplier = 10f; // Multiplier for the launch force
+    public float launchForceMultiplier = 20f; // Multiplier for the launch force
     private bool isDragging = false; // Whether the player is dragging the projectile
 
     public int lives = 3; // Number of lives for the projectile
@@ -55,6 +55,7 @@ public class Sling : MonoBehaviour
             mainMenuButton.gameObject.SetActive(false); // Hide the main menu button initially
             mainMenuButton.onClick.AddListener(Main); // Attach the main menu function to the button
         }
+
         projectile.position = initialPosition;
 
     }
@@ -104,7 +105,7 @@ public class Sling : MonoBehaviour
 
         // Calculate the direction and distance from the leftPoint to the mouse position
         Vector3 direction = currentMousePosition - leftPoint.position;
-        float maxDistance = 2f; // Maximum stretch distance
+        float maxDistance = 5f; // Maximum stretch distance
 
         // Clamp the distance to ensure the projectile stays within range
         if (direction.magnitude > maxDistance)
@@ -153,14 +154,17 @@ public class Sling : MonoBehaviour
     private Vector3 GetMouseWorldPosition()
     {
     Plane plane = new Plane(Vector3.forward, leftPoint.position); // Define a plane at the slingshot level
-    Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+    Vector2 mousepause = Input.mousePosition;
+    Vector3 point = Camera.main.ScreenToWorldPoint(new Vector3(mousepause.x, mousepause.y, Camera.main.nearClipPlane));
+    return point;
+    //if (plane.Raycast(point, out float distance))
 
-    if (plane.Raycast(ray, out float distance))
-    {
-        return ray.GetPoint(distance); // Get the point where the ray intersects the plane
-    }
+    //{
+        //return ray.GetPoint(distance); // Get the point where the ray intersects the plane
+    //}
         return leftPoint.position;
-}
+        return rightPoint.position;
+    }
 
     private IEnumerator HandleProjectileLife()
     {
@@ -224,7 +228,7 @@ public class Sling : MonoBehaviour
         if (gameOverText != null)
         {
             gameOverText.gameObject.SetActive(true); // Display the Game Over text
-            gameOverText.text = "Game Over!"; // Customize the message
+            gameOverText.text = "Game Over!"; 
         }
 
         if (restartButton != null)
@@ -255,6 +259,11 @@ public class Sling : MonoBehaviour
         if (restartButton != null)
         {
             restartButton.gameObject.SetActive(false); // Hide the restart button
+        }
+
+        if (mainMenuButton != null)
+        {
+            mainMenuButton.gameObject.SetActive(false); // Hide the main menu button
         }
     }
 

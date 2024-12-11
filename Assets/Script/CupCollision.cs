@@ -36,20 +36,12 @@ public class CupCollision : MonoBehaviour
         void OnCollisionEnter(Collision collision)
         {
             if(collision.gameObject.name == "Wall");
-            if(collision.gameObject.name == "Wall(1)");
+            {
+            Debug.Log("Entered");
+            }
+
         }
 
-        /*if(!gameObject.CompareTag("Cup"))
-        {
-            gameManager.GameOver();
-        }
-
-        if(!gameObject.CompareTag("Ball"))
-        {
-            Destroy(gameObject);
-            gameManager.GameOver();
-            
-        }*/
 
     }
    
