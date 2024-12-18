@@ -16,32 +16,29 @@ public class CupCollision : MonoBehaviour
     {
         
     }
+    
+    void OnCollisionEnter(Collision collision)
+    {
+        if(collision.collider.CompareTag("Ball"))
+        {
+            Destroy(gameObject); // Destroys the ball
+        }
+    }
 
-     void OnTriggerEnter(Collider other)
+    void OnTriggerEnter(Collider other)
     {
         
-        if(other.CompareTag("Cup")) //Checks if the object collides with the cup
+        if(other.CompareTag("Target")) //Checks if the object collides with the cup
         {
-            Destroy(other.gameObject); // Destroys the cup
-            Destroy(gameObject); // Destroys the ball
-            return; 
+            Destroy(other.gameObject);
             Debug.Log("Collision detected with: " + other.tag);
         }
 
-        if (gameObject.CompareTag("Ball")) // Check if the object collides with a ball
+        if(other.CompareTag("Cup")) //Checks if the object collides with the cup
         {
-            Destroy(gameObject);
-            
+            Destroy(other.gameObject);
+            Debug.Log("Collision detected with: " + other.tag);
         }
-        void OnCollisionEnter(Collision collision)
-        {
-            if(collision.gameObject.name == "Wall");
-            {
-            Debug.Log("Entered");
-            }
-
-        }
-
 
     }
    

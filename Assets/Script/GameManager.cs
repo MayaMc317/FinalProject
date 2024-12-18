@@ -53,7 +53,7 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {
-        // If the game hasn't started, allow starting with any key press
+        // If the game hasn't started allow starting with any key press
         if (!gameStarted && Input.anyKeyDown)
         {
             StartGame();
@@ -64,7 +64,7 @@ public class GameManager : MonoBehaviour
     {
         if (!gameStarted)
         {
-            gameStarted = true; // Mark the game as started
+            gameStarted = true; //  tells the user that the game has started
 
             // Hide the Title Screen
             if (titleScreen != null)
@@ -94,7 +94,7 @@ public class GameManager : MonoBehaviour
                 
             }
 
-            // Show the main game UI or start the game logic
+            // Show the main game UI
             if (gameUI != null)
             {
                 gameUI.SetActive(true);
@@ -104,7 +104,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    // Method to handle Easy Button click
+    // Method to handle Easy Button click and change the scene
     public void OnEasyButtonClicked()
     {
         // Trigger StartGame when the Easy Button is clicked
@@ -120,7 +120,7 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadScene("Medium"); 
     }
 
-    // Method to handle hard Button click
+    // Method to handle Hard Button click and change the scene
     public void OnHardButtonClicked()
     {
         // Trigger StartGame when the hard Button is clicked
@@ -128,7 +128,7 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadScene("Hard");
     }
 
-    // Method to handle hard Button click
+    // Method to handle Extreme Button click and change the scene
     public void OnExtremeButtonClicked()
     {
         // Trigger StartGame when the extreme Button is clicked
